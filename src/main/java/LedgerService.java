@@ -11,6 +11,21 @@ public class LedgerService {
 
         ArrayList<Transaction> transactions = new ArrayList<>();
 
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("src/main/resources/transactions.csv"))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                System.out.println(line);
+
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+
         return transactions;
     }
 

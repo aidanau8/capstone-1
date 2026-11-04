@@ -41,6 +41,13 @@ public class AccountingLedger {
 
         // Display the menu
         System.out.println(menuPrompt);
+
+        // Read the user's choice from the keyboard
+        String userInput = myScanner.nextLine();
+
+        // Display the user's choice for testing
+        System.out.println("You selected: " + userInput);
+
     }
 
         // Read transactions from the CSV file

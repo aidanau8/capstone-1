@@ -39,16 +39,28 @@ public class AccountingLedger {
                 Enter your choice:
                 """;
 
-        // Display the menu
-        System.out.println(menuPrompt);
 
-        // Read the user's choice from the keyboard
-        String userInput = myScanner.nextLine();
+        // Control when the user wants to exit the menu
+        boolean done = false;
 
-        // Display the user's choice for testing
-        System.out.println("You selected: " + userInput);
+        do {
+            // Display the main menu
+            System.out.println(menuPrompt);
 
+            // Read the user's choice from the keyboard
+            String userInput = myScanner.nextLine().toUpperCase();
+
+            // Check if the user wants to exit
+            if (userInput.equals("X")) {
+                done = true;
+            } else {
+                // Display the choice for testing
+                System.out.println("You selected: " + userInput);
+            }
+
+        } while (!done);
     }
+
 
         // Read transactions from the CSV file
         public static ArrayList<Transaction> getTransactions() {

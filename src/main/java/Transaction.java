@@ -17,6 +17,7 @@ public class Transaction {
         this.vendor = vendor;
         this.amount = amount;
 
+
     }
 
     public LocalTime getTime() {

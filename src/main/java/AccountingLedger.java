@@ -50,13 +50,16 @@ public class AccountingLedger {
             // Read the user's choice from the keyboard
             String userInput = myScanner.nextLine().toUpperCase();
 
-            // Check if the user wants to exit
-            if (userInput.equals("X")) {
-                done = true;
-            } else {
-                // Display the choice for testing
-                System.out.println("You selected: " + userInput);
+
+            // Handle the user's menu choice
+            switch (userInput) {
+                case "D" -> System.out.println("Add Deposit selected");
+                case "P" -> System.out.println("Make Payment selected");
+                case "L" -> System.out.println("Ledger selected");
+                case "X" -> done = true;
+                default -> System.out.println("Invalid option. Please try again.");
             }
+
 
         } while (!done);
     }

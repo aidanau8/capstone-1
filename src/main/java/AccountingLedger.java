@@ -85,6 +85,12 @@ public class AccountingLedger {
         // Display the ledger menu
         System.out.println(menuPrompt);
 
+        // Read the user's choice from the ledger menu
+        String userInput = myScanner.nextLine().toUpperCase();
+
+        // Display the selected option for testing
+        System.out.println("Ledger option selected: " + userInput);
+
 
 
     }

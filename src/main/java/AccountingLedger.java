@@ -1,58 +1,89 @@
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Scanner;
 
 public class AccountingLedger {
 
     public static void main(String[] args) {
 
+        // Create a Scanner to read user input
+        Scanner myScanner = new Scanner(System.in);
+
+        // Load transactions from the CSV file
         ArrayList<Transaction> transactions = getTransactions();
 
-        System.out.println("Transactions loaded: " + transactions.size());
+        // Display the main menu
+        mainMenu(myScanner, transactions);
 
-        System.out.println("\nWelcome to Accounting Ledger!");
-        System.out.println("D) Add Deposit");
-        System.out.println("P) Make Payment");
-        System.out.println("L) Ledger");
-        System.out.println("X) Exit");
-        System.out.print("Enter your choice: ");
+        // Display a goodbye message when the user exits
+        System.out.println("Thanks for using Accounting Ledger!");
     }
 
-    public static ArrayList<Transaction> getTransactions() {
 
-        ArrayList<Transaction> transactions = new ArrayList<>();
+    // Display the main menu
+    private static void mainMenu(Scanner myScanner,
+                                 ArrayList<Transaction> transactions) {
 
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader("src/main/resources/transactions.csv"))) {
+        // Store the menu options
+        String menuPrompt = """
+                Welcome to Accounting Ledger!
+                D) Add Deposit
+                P) Make Payment
+                L) Ledger
+                X) Exit
+                Enter your choice:
+                """;
 
-            reader.readLine();
+        // Display the menu
+        System.out.println(menuPrompt);
+    }
 
-            String line;
+        // Read transactions from the CSV file
+        public static ArrayList<Transaction> getTransactions() {
 
-            while ((line = reader.readLine()) != null) {
+            // Create an empty list to store transactions
+            ArrayList<Transaction> transactions = new ArrayList<>();
 
-                String[] parts = line.split("\\|");
+            // Open the file using BufferedReader
+            try (BufferedReader reader = new BufferedReader(
+                    new FileReader("src/main/resources/transactions.csv"))) {
 
-                LocalDate date = LocalDate.parse(parts[0]);
-                LocalTime time = LocalTime.parse(parts[1]);
-                String description = parts[2];
-                String vendor = parts[3];
-                double amount = Double.parseDouble(parts[4]);
+                // Skip the header
+                reader.readLine();
 
-                Transaction transaction = new Transaction(
-                        date, time, description, vendor, amount
-                );
+                String line;
 
-                transactions.add(transaction);
+                // Read each line until the end of the file
+                while ((line = reader.readLine()) != null) {
+
+                    // Split the line into five fields
+                    String[] parts = line.split("\\|");
+
+                    // Convert values to the correct data types
+                    LocalDate date = LocalDate.parse(parts[0]);
+                    LocalTime time = LocalTime.parse(parts[1]);
+                    String description = parts[2];
+                    String vendor = parts[3];
+                    double amount = Double.parseDouble(parts[4]);
+
+                    // Create a Transaction object
+                    Transaction transaction = new Transaction(
+                            date, time, description, vendor, amount
+                    );
+
+                    // Add the object to the list
+                    transactions.add(transaction);
+                }
+
+            } catch (IOException e) {
+                System.out.println("Error reading file: " + e.getMessage());
             }
 
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
+            return transactions;
         }
-
-        return transactions;
-    }
 }

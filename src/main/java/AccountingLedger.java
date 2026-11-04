@@ -55,7 +55,7 @@ public class AccountingLedger {
             switch (userInput) {
                 case "D" -> System.out.println("Add Deposit selected");
                 case "P" -> System.out.println("Make Payment selected");
-                case "L" -> System.out.println("Ledger selected");
+                case "L" -> ledgerMenu(myScanner, transactions);
                 case "X" -> done = true;
                 default -> System.out.println("Invalid option. Please try again.");
             }
@@ -65,7 +65,32 @@ public class AccountingLedger {
     }
 
 
-        // Read transactions from the CSV file
+
+    // Display the ledger menu
+    private static void ledgerMenu(Scanner myScanner,
+                                   ArrayList<Transaction> transactions) {
+
+
+        // Store the ledger menu options in a text block
+        String menuPrompt = """
+                Ledger Menu
+                A) All Transactions
+                D) Deposits
+                P) Payments
+                R) Reports
+                H) Home
+                Enter your choice:
+                """;
+
+        // Display the ledger menu
+        System.out.println(menuPrompt);
+
+
+
+    }
+
+
+    // Read transactions from the CSV file
         public static ArrayList<Transaction> getTransactions() {
 
             // Create an empty list to store transactions

@@ -105,6 +105,18 @@ public class AccountingLedger {
         // Temporary message to test the method
         System.out.println("Add Payment Menu");
 
+
+        // Get the current date
+        LocalDate date = LocalDate.now();
+
+        // Get the current time
+        LocalTime time = LocalTime.now();
+
+        // Display the date and time for testing
+        System.out.println("Date: " + date);
+        System.out.println("Time: " + time);
+
+
         // Ask the user for a payment description
         System.out.print("Enter payment description: ");
 
@@ -123,6 +135,20 @@ public class AccountingLedger {
 
         // Display the vendor for testing
         System.out.println("Vendor: " + vendor);
+
+
+        // Ask the user for the payment amount
+        System.out.print("Enter payment amount: ");
+
+        // Read the amount as a String
+        String amountText = myScanner.nextLine();
+
+        // Convert the String into a double
+        double amount = Double.parseDouble(amountText);
+
+        // Display the amount for testing
+        System.out.println("Amount: " + amount);
+
 
 
     }

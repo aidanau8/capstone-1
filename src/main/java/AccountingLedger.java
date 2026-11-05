@@ -66,12 +66,12 @@ public class AccountingLedger {
 
 
 
+
     // Display the ledger menu
     private static void ledgerMenu(Scanner myScanner,
                                    ArrayList<Transaction> transactions) {
 
-
-        // Store the ledger menu options in a text block
+        // Store the ledger menu options
         String menuPrompt = """
                 Ledger Menu
                 A) All Transactions
@@ -82,61 +82,72 @@ public class AccountingLedger {
                 Enter your choice:
                 """;
 
-        // Display the ledger menu
-        System.out.println(menuPrompt);
+        // Control when the user returns to the home menu
+        boolean done = false;
 
-        // Read the user's choice from the ledger menu
-        String userInput = myScanner.nextLine().toUpperCase();
+        do {
+            // Display the ledger menu
+            System.out.println(menuPrompt);
 
-        // Display the selected option for testing
-        System.out.println("Ledger option selected: " + userInput);
+            // Read the user's choice
+            String userInput = myScanner.nextLine().toUpperCase();
 
+            // Handle the ledger menu choices
+            switch (userInput) {
+                case "A" -> System.out.println("All Transactions selected");
+                case "D" -> System.out.println("Deposits selected");
+                case "P" -> System.out.println("Payments selected");
+                case "R" -> System.out.println("Reports selected");
+                case "H" -> done = true;
+                default -> System.out.println("Invalid option. Please try again.");
+            }
 
-
+        } while (!done);
     }
 
 
     // Read transactions from the CSV file
-        public static ArrayList<Transaction> getTransactions() {
+    public static ArrayList<Transaction> getTransactions() {
 
-            // Create an empty list to store transactions
-            ArrayList<Transaction> transactions = new ArrayList<>();
+        // Create an empty list to store transactions
+        ArrayList<Transaction> transactions = new ArrayList<>();
 
-            // Open the file using BufferedReader
-            try (BufferedReader reader = new BufferedReader(
-                    new FileReader("src/main/resources/transactions.csv"))) {
+        // Open the file using BufferedReader
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("src/main/resources/transactions.csv"))) {
 
-                // Skip the header
-                reader.readLine();
+            // Skip the header
+            reader.readLine();
 
-                String line;
+            String line;
 
-                // Read each line until the end of the file
-                while ((line = reader.readLine()) != null) {
+            // Read each line until the end of the file
+            while ((line = reader.readLine()) != null) {
 
-                    // Split the line into five fields
-                    String[] parts = line.split("\\|");
+                // Split the line into five fields
+                String[] parts = line.split("\\|");
 
-                    // Convert values to the correct data types
-                    LocalDate date = LocalDate.parse(parts[0]);
-                    LocalTime time = LocalTime.parse(parts[1]);
-                    String description = parts[2];
-                    String vendor = parts[3];
-                    double amount = Double.parseDouble(parts[4]);
+                // Convert values to the correct data types
+                LocalDate date = LocalDate.parse(parts[0]);
+                LocalTime time = LocalTime.parse(parts[1]);
+                String description = parts[2];
+                String vendor = parts[3];
+                double amount = Double.parseDouble(parts[4]);
 
-                    // Create a Transaction object
-                    Transaction transaction = new Transaction(
-                            date, time, description, vendor, amount
-                    );
+                // Create a Transaction object
+                Transaction transaction = new Transaction(
+                        date, time, description, vendor, amount
+                );
 
-                    // Add the object to the list
-                    transactions.add(transaction);
-                }
-
-            } catch (IOException e) {
-                System.out.println("Error reading file: " + e.getMessage());
+                // Add the object to the list
+                transactions.add(transaction);
             }
 
-            return transactions;
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
+
+        // Return the list of transactions
+        return transactions;
+    }
 }

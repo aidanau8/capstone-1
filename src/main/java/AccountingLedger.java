@@ -24,7 +24,6 @@ public class AccountingLedger {
         System.out.println("Thanks for using Accounting Ledger!");
     }
 
-
     // Display the main menu
     private static void mainMenu(Scanner myScanner,
                                  ArrayList<Transaction> transactions) {
@@ -39,7 +38,6 @@ public class AccountingLedger {
                 Enter your choice:
                 """;
 
-
         // Control when the user wants to exit the menu
         boolean done = false;
 
@@ -48,24 +46,19 @@ public class AccountingLedger {
             System.out.println(menuPrompt);
 
             // Read the user's choice from the keyboard
-            String userInput = myScanner.nextLine().toUpperCase();
-
+            String userInput = myScanner.nextLine().trim().toUpperCase();
 
             // Handle the user's menu choice
             switch (userInput) {
                 case "D" -> System.out.println("Add Deposit selected");
-                case "P" -> System.out.println("Make Payment selected");
+                case "P" -> addPayment(myScanner, transactions);
                 case "L" -> ledgerMenu(myScanner, transactions);
                 case "X" -> done = true;
                 default -> System.out.println("Invalid option. Please try again.");
             }
 
-
         } while (!done);
     }
-
-
-
 
     // Display the ledger menu
     private static void ledgerMenu(Scanner myScanner,
@@ -90,7 +83,7 @@ public class AccountingLedger {
             System.out.println(menuPrompt);
 
             // Read the user's choice
-            String userInput = myScanner.nextLine().toUpperCase();
+            String userInput = myScanner.nextLine().trim().toUpperCase();
 
             // Handle the ledger menu choices
             switch (userInput) {
@@ -105,6 +98,13 @@ public class AccountingLedger {
         } while (!done);
     }
 
+    // Add a new payment
+    private static void addPayment(Scanner myScanner,
+                                   ArrayList<Transaction> transactions) {
+
+        // Temporary message to test the method
+        System.out.println("Add Payment Menu");
+    }
 
     // Read transactions from the CSV file
     public static ArrayList<Transaction> getTransactions() {

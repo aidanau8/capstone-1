@@ -114,6 +114,17 @@ public class AccountingLedger {
         // Display the description for testing
         System.out.println("Description: " + description);
 
+
+        // Ask the user for the vendor
+        System.out.print("Enter vendor: ");
+
+        // Read the vendor from the keyboard
+        String vendor = myScanner.nextLine();
+
+        // Display the vendor for testing
+        System.out.println("Vendor: " + vendor);
+
+
     }
 
     // Read transactions from the CSV file

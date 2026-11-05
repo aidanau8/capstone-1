@@ -104,6 +104,16 @@ public class AccountingLedger {
 
         // Temporary message to test the method
         System.out.println("Add Payment Menu");
+
+        // Ask the user for a payment description
+        System.out.print("Enter payment description: ");
+
+        // Read the description from the keyboard
+        String description = myScanner.nextLine();
+
+        // Display the description for testing
+        System.out.println("Description: " + description);
+
     }
 
     // Read transactions from the CSV file

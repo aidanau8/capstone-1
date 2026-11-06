@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+import java.io.BufferedWriter;  // Writes text efficiently to a file
+import java.io.FileWriter;      // Opens a file for writing
+
 
 public class AccountingLedger {
 
@@ -150,8 +153,35 @@ public class AccountingLedger {
         System.out.println("Amount: " + amount);
 
 
+        // Convert the amount to a negative value for a payment
+        amount = -Math.abs(amount);
+
+        // Create a new Transaction object
+        Transaction transaction = new Transaction(
+                date, time, description, vendor, amount
+        );
+
+        // Add the transaction to the ArrayList
+        transactions.add(transaction);
+
+        // Display a confirmation message
+        System.out.println("Payment added: " + transaction.getAmount());
+
+        // Save the transaction to the CSV file
+        saveTransaction(transaction);
+
 
     }
+
+
+    // Save a transaction to the CSV file
+    private static void saveTransaction(Transaction transaction) {
+
+        // Temporary message to test the method
+        System.out.println("Saving transaction...");
+
+    }
+
 
     // Read transactions from the CSV file
     public static ArrayList<Transaction> getTransactions() {

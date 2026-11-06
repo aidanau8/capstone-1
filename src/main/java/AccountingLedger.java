@@ -131,16 +131,17 @@ public class AccountingLedger {
             // Handle the reports menu choices
             switch (userInput) {
                 case "1" -> monthToDateReport(transactions);
-                case "2" -> System.out.println("Previous Month selected");
-                case "3" -> System.out.println("Year To Date selected");
-                case "4" -> System.out.println("Previous Year selected");
-                case "5" -> System.out.println("Search by Vendor selected");
+                case "2" -> previousMonthReport(transactions);
+                case "3" -> yearToDateReport(transactions);
+                case "4" -> previousYearReport(transactions);
+                case "5" -> searchByVendor(myScanner, transactions);
                 case "0" -> done = true;
                 default -> System.out.println("Invalid option. Please try again.");
             }
 
         } while (!done);
     }
+
 
     // Display transactions from the current month
     private static void monthToDateReport(ArrayList<Transaction> transactions) {
@@ -151,24 +152,148 @@ public class AccountingLedger {
         // Get the first day of the current month
         LocalDate startDate = today.withDayOfMonth(1);
 
-        // Display the report date range
-        System.out.println("Month To Date Report");
-        System.out.println("From: " + startDate);
-        System.out.println("To: " + today);
+        // Display the month to date report
+        displayDateRangeReport(
+                transactions, startDate, today, "Month To Date Report");
+    }
 
-        // Loop through all transactions
-        for (Transaction transaction : transactions) {
+    // Display transactions from the previous month
+    private static void previousMonthReport(ArrayList<Transaction> transactions) {
+
+        // Get the first day of the previous month
+        LocalDate startDate = LocalDate.now()
+                .minusMonths(1).withDayOfMonth(1);
+
+        // Get the last day of the previous month
+        LocalDate endDate = LocalDate.now()
+                .withDayOfMonth(1).minusDays(1);
+
+        // Display the previous month report
+        displayDateRangeReport(
+                transactions, startDate, endDate, "Previous Month Report");
+    }
+
+    // Display transactions from the current year
+    private static void yearToDateReport(ArrayList<Transaction> transactions) {
+
+        // Get today's date
+        LocalDate today = LocalDate.now();
+
+        // Get the first day of the current year
+        LocalDate startDate = today.withDayOfYear(1);
+
+        // Display the year to date report
+        displayDateRangeReport(
+                transactions, startDate, today, "Year To Date Report");
+    }
+
+    // Display transactions from the previous year
+    private static void previousYearReport(ArrayList<Transaction> transactions) {
+
+        // Get the first day of the previous year
+        LocalDate startDate = LocalDate.now()
+                .minusYears(1).withDayOfYear(1);
+
+        // Get the last day of the previous year
+        LocalDate endDate = LocalDate.now()
+                .withDayOfYear(1).minusDays(1);
+
+        // Display the previous year report
+        displayDateRangeReport(
+                transactions, startDate, endDate, "Previous Year Report");
+    }
+
+    // Display transactions within a selected date range
+    private static void displayDateRangeReport(
+            ArrayList<Transaction> transactions,
+            LocalDate startDate,
+            LocalDate endDate,
+            String reportName) {
+
+        // Create a copy to keep the original list unchanged
+        ArrayList<Transaction> sortedTransactions = new ArrayList<>(transactions);
+
+        // Sort transactions by date and time, newest first
+        Collections.sort(sortedTransactions,
+                Comparator.comparing(Transaction::getDate)
+                        .thenComparing(Transaction::getTime)
+                        .reversed());
+
+        // Display the report heading
+        System.out.println(reportName);
+        System.out.println("From: " + startDate);
+        System.out.println("To: " + endDate);
+
+        // Track whether matching transactions were found
+        boolean found = false;
+
+        // Loop through the sorted transactions
+        for (Transaction transaction : sortedTransactions) {
 
             // Get the transaction date
             LocalDate transactionDate = transaction.getDate();
 
-            // Check if the transaction is within the current month
+            // Check if the date is within the selected range
             if (!transactionDate.isBefore(startDate) &&
-                    !transactionDate.isAfter(today)) {
+                    !transactionDate.isAfter(endDate)) {
 
-                // Display the transaction details
+                // Display transaction details
                 printTransaction(transaction);
+                found = true;
             }
+        }
+
+        // Display a message when no transactions are found
+        if (!found) {
+            System.out.println("No transactions found.");
+        }
+    }
+
+    // Search for transactions by vendor
+    private static void searchByVendor(Scanner myScanner,
+                                       ArrayList<Transaction> transactions) {
+
+        // Ask the user for a vendor name
+        System.out.print("Enter vendor name: ");
+        String vendorName = myScanner.nextLine().trim();
+
+        // Check if the vendor name is empty
+        if (vendorName.isEmpty()) {
+            System.out.println("Please enter a vendor name.");
+            return;
+        }
+
+        // Create a copy to keep the original list unchanged
+        ArrayList<Transaction> sortedTransactions = new ArrayList<>(transactions);
+
+        // Sort transactions by date and time, newest first
+        Collections.sort(sortedTransactions,
+                Comparator.comparing(Transaction::getDate)
+                        .thenComparing(Transaction::getTime)
+                        .reversed());
+
+        // Display the report heading
+        System.out.println("Search by Vendor: " + vendorName);
+
+        // Track whether matching transactions were found
+        boolean found = false;
+
+        // Loop through the sorted transactions
+        for (Transaction transaction : sortedTransactions) {
+
+            // Check if the vendor name contains the search text
+            if (transaction.getVendor().toLowerCase()
+                    .contains(vendorName.toLowerCase())) {
+
+                // Display matching transaction details
+                printTransaction(transaction);
+                found = true;
+            }
+        }
+
+        // Display a message when no transactions are found
+        if (!found) {
+            System.out.println("No transactions found.");
         }
     }
 

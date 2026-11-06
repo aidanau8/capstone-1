@@ -138,6 +138,23 @@ public class AccountingLedger {
         // Display the vendor for testing
         System.out.println("Vendor: " + vendor);
 
+
+        // Ask the user for the deposit amount
+        System.out.print("Enter deposit amount: ");
+
+        // Read the amount as a String
+        String amountText = myScanner.nextLine();
+
+        // Convert the String into a double
+        double amount = Double.parseDouble(amountText);
+
+        // Ensure the deposit amount is positive
+        amount = Math.abs(amount);
+
+        // Display the amount for testing
+        System.out.println("Amount: " + amount);
+
+
     }
 
 

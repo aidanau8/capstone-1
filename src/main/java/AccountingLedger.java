@@ -89,7 +89,7 @@ public class AccountingLedger {
 
             // Handle the ledger menu choices
             switch (userInput) {
-                case "A" -> System.out.println("All Transactions selected");
+                case "A" -> displayAllTransactions(transactions);
                 case "D" -> System.out.println("Deposits selected");
                 case "P" -> System.out.println("Payments selected");
                 case "R" -> System.out.println("Reports selected");
@@ -99,6 +99,29 @@ public class AccountingLedger {
 
         } while (!done);
     }
+
+
+
+    // Display all transactions
+    private static void displayAllTransactions(ArrayList<Transaction> transactions) {
+
+        // Display a heading
+        System.out.println("All Transactions:");
+
+        // Loop through the transaction list
+        for (Transaction transaction : transactions) {
+
+            // Display transaction details
+            System.out.println(
+                    transaction.getDate() + " | " +
+                            transaction.getTime() + " | " +
+                            transaction.getDescription() + " | " +
+                            transaction.getVendor() + " | " +
+                            transaction.getAmount()
+            );
+        }
+    }
+
 
 
     // Add a new deposit

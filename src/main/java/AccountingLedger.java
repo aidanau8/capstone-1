@@ -102,7 +102,6 @@ public class AccountingLedger {
         } while (!done);
     }
 
-
     // Display the reports menu
     private static void reportsMenu(Scanner myScanner,
                                     ArrayList<Transaction> transactions) {
@@ -131,7 +130,7 @@ public class AccountingLedger {
 
             // Handle the reports menu choices
             switch (userInput) {
-                case "1" -> System.out.println("Month To Date selected");
+                case "1" -> monthToDateReport(transactions);
                 case "2" -> System.out.println("Previous Month selected");
                 case "3" -> System.out.println("Year To Date selected");
                 case "4" -> System.out.println("Previous Year selected");
@@ -143,6 +142,35 @@ public class AccountingLedger {
         } while (!done);
     }
 
+    // Display transactions from the current month
+    private static void monthToDateReport(ArrayList<Transaction> transactions) {
+
+        // Get today's date
+        LocalDate today = LocalDate.now();
+
+        // Get the first day of the current month
+        LocalDate startDate = today.withDayOfMonth(1);
+
+        // Display the report date range
+        System.out.println("Month To Date Report");
+        System.out.println("From: " + startDate);
+        System.out.println("To: " + today);
+
+        // Loop through all transactions
+        for (Transaction transaction : transactions) {
+
+            // Get the transaction date
+            LocalDate transactionDate = transaction.getDate();
+
+            // Check if the transaction is within the current month
+            if (!transactionDate.isBefore(startDate) &&
+                    !transactionDate.isAfter(today)) {
+
+                // Display the transaction details
+                printTransaction(transaction);
+            }
+        }
+    }
 
     // Display all transactions
     private static void displayAllTransactions(ArrayList<Transaction> transactions) {
@@ -150,13 +178,11 @@ public class AccountingLedger {
         // Create a copy to keep the original list unchanged
         ArrayList<Transaction> sortedTransactions = new ArrayList<>(transactions);
 
-
         // Sort transactions by date and time, newest first
         Collections.sort(sortedTransactions,
                 Comparator.comparing(Transaction::getDate)
                         .thenComparing(Transaction::getTime)
                         .reversed());
-
 
         // Display a heading
         System.out.println("All Transactions:");
@@ -164,19 +190,23 @@ public class AccountingLedger {
         // Loop through the sorted transactions
         for (Transaction transaction : sortedTransactions) {
 
-
-                // Display transaction details
-                System.out.println(
-                        transaction.getDate() + " | " +
-                                transaction.getTime() + " | " +
-                                transaction.getDescription() + " | " +
-                                transaction.getVendor() + " | " +
-                                transaction.getAmount()
-                );
-            }
+            // Display transaction details
+            printTransaction(transaction);
         }
+    }
 
+    // Display a single transaction
+    private static void printTransaction(Transaction transaction) {
 
+        // Display transaction details
+        System.out.println(
+                transaction.getDate() + " | " +
+                        transaction.getTime() + " | " +
+                        transaction.getDescription() + " | " +
+                        transaction.getVendor() + " | " +
+                        transaction.getAmount()
+        );
+    }
 
     // Display deposit transactions
     private static void displayDeposits(ArrayList<Transaction> transactions) {
@@ -193,17 +223,14 @@ public class AccountingLedger {
         // Display a heading
         System.out.println("Deposits:");
 
+        // Loop through the sorted transactions
         for (Transaction transaction : sortedTransactions) {
 
             // Display only positive transactions
             if (transaction.getAmount() > 0) {
-                System.out.println(
-                        transaction.getDate() + " | " +
-                                transaction.getTime() + " | " +
-                                transaction.getDescription() + " | " +
-                                transaction.getVendor() + " | " +
-                                transaction.getAmount()
-                );
+
+                // Display deposit details
+                printTransaction(transaction);
             }
         }
     }
@@ -230,13 +257,7 @@ public class AccountingLedger {
             if (transaction.getAmount() < 0) {
 
                 // Display payment details
-                System.out.println(
-                        transaction.getDate() + " | " +
-                                transaction.getTime() + " | " +
-                                transaction.getDescription() + " | " +
-                                transaction.getVendor() + " | " +
-                                transaction.getAmount()
-                );
+                printTransaction(transaction);
             }
         }
     }
@@ -245,9 +266,8 @@ public class AccountingLedger {
     private static void addDeposit(Scanner myScanner,
                                    ArrayList<Transaction> transactions) {
 
-        // Temporary message to test the method
+        // Display the deposit menu
         System.out.println("Add Deposit Menu");
-
 
         // Get the current date
         LocalDate date = LocalDate.now();
@@ -258,7 +278,6 @@ public class AccountingLedger {
         // Display the date and time for testing
         System.out.println("Date: " + date);
         System.out.println("Time: " + time);
-
 
         // Ask the user for a deposit description
         System.out.print("Enter deposit description: ");
@@ -278,7 +297,6 @@ public class AccountingLedger {
         // Display the vendor for testing
         System.out.println("Vendor: " + vendor);
 
-
         // Ask the user for the deposit amount
         System.out.print("Enter deposit amount: ");
 
@@ -294,7 +312,6 @@ public class AccountingLedger {
         // Display the amount for testing
         System.out.println("Amount: " + amount);
 
-
         // Create a new Transaction object
         Transaction transaction = new Transaction(
                 date, time, description, vendor, amount
@@ -308,10 +325,7 @@ public class AccountingLedger {
 
         // Save the deposit transaction to the CSV file
         saveTransaction(transaction);
-
-
     }
-
 
     // Add a new payment
     private static void addPayment(Scanner myScanner,
@@ -370,7 +384,6 @@ public class AccountingLedger {
         saveTransaction(transaction);
     }
 
-
     // Save a transaction to the CSV file
     private static void saveTransaction(Transaction transaction) {
 
@@ -395,11 +408,11 @@ public class AccountingLedger {
             System.out.println("Transaction saved to CSV!");
 
         } catch (IOException e) {
+
             // Display an error if the transaction cannot be saved
             System.out.println("Error saving transaction: " + e.getMessage());
         }
     }
-
 
     // Read transactions from the CSV file
     public static ArrayList<Transaction> getTransactions() {

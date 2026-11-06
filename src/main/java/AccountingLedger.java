@@ -3,12 +3,11 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
-import java.io.BufferedWriter;  // Writes text efficiently to a file
-import java.io.FileWriter;      // Opens a file for writing
-
 
 public class AccountingLedger {
 
@@ -105,45 +104,33 @@ public class AccountingLedger {
     private static void addPayment(Scanner myScanner,
                                    ArrayList<Transaction> transactions) {
 
-        // Temporary message to test the method
+        // Display the payment menu
         System.out.println("Add Payment Menu");
 
-
-        // Get the current date
+        // Get the current date and time
         LocalDate date = LocalDate.now();
-
-        // Get the current time
         LocalTime time = LocalTime.now();
 
         // Display the date and time for testing
         System.out.println("Date: " + date);
         System.out.println("Time: " + time);
 
-
         // Ask the user for a payment description
         System.out.print("Enter payment description: ");
-
-        // Read the description from the keyboard
         String description = myScanner.nextLine();
 
         // Display the description for testing
         System.out.println("Description: " + description);
 
-
         // Ask the user for the vendor
         System.out.print("Enter vendor: ");
-
-        // Read the vendor from the keyboard
         String vendor = myScanner.nextLine();
 
         // Display the vendor for testing
         System.out.println("Vendor: " + vendor);
 
-
         // Ask the user for the payment amount
         System.out.print("Enter payment amount: ");
-
-        // Read the amount as a String
         String amountText = myScanner.nextLine();
 
         // Convert the String into a double
@@ -151,7 +138,6 @@ public class AccountingLedger {
 
         // Display the amount for testing
         System.out.println("Amount: " + amount);
-
 
         // Convert the amount to a negative value for a payment
         amount = -Math.abs(amount);
@@ -169,17 +155,36 @@ public class AccountingLedger {
 
         // Save the transaction to the CSV file
         saveTransaction(transaction);
-
-
     }
 
 
     // Save a transaction to the CSV file
     private static void saveTransaction(Transaction transaction) {
 
-        // Temporary message to test the method
-        System.out.println("Saving transaction...");
+        // Open the CSV file in append mode
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter("src/main/resources/transactions.csv", true))) {
 
+            // Convert the transaction into a CSV line
+            String line = transaction.getDate() + "|" +
+                    transaction.getTime() + "|" +
+                    transaction.getDescription() + "|" +
+                    transaction.getVendor() + "|" +
+                    transaction.getAmount();
+
+            // Write the transaction to the file
+            writer.write(line);
+
+            // Move to the next line
+            writer.newLine();
+
+            // Display a confirmation message
+            System.out.println("Transaction saved to CSV!");
+
+        } catch (IOException e) {
+            // Display an error if the transaction cannot be saved
+            System.out.println("Error saving transaction: " + e.getMessage());
+        }
     }
 
 
@@ -216,7 +221,7 @@ public class AccountingLedger {
                         date, time, description, vendor, amount
                 );
 
-                // Add the object to the list
+                // Add the object to the ArrayList
                 transactions.add(transaction);
             }
 

@@ -108,6 +108,29 @@ public class AccountingLedger {
         // Temporary message to test the method
         System.out.println("Add Deposit Menu");
 
+
+        // Get the current date
+        LocalDate date = LocalDate.now();
+
+        // Get the current time
+        LocalTime time = LocalTime.now();
+
+        // Display the date and time for testing
+        System.out.println("Date: " + date);
+        System.out.println("Time: " + time);
+
+
+        // Ask the user for a deposit description
+        System.out.print("Enter deposit description: ");
+
+        // Read the description from the keyboard
+        String description = myScanner.nextLine();
+
+        // Display the description for testing
+        System.out.println("Description: " + description);
+
+
+
     }
 
 

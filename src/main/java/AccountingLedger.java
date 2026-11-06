@@ -129,7 +129,14 @@ public class AccountingLedger {
         // Display the description for testing
         System.out.println("Description: " + description);
 
+        // Ask the user for the deposit vendor
+        System.out.print("Enter deposit vendor: ");
 
+        // Read the vendor from the keyboard
+        String vendor = myScanner.nextLine();
+
+        // Display the vendor for testing
+        System.out.println("Vendor: " + vendor);
 
     }
 

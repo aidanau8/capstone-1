@@ -52,7 +52,7 @@ public class AccountingLedger {
 
             // Handle the user's menu choice
             switch (userInput) {
-                case "D" -> System.out.println("Add Deposit selected");
+                case "D" -> addDeposit(myScanner, transactions);
                 case "P" -> addPayment(myScanner, transactions);
                 case "L" -> ledgerMenu(myScanner, transactions);
                 case "X" -> done = true;
@@ -99,6 +99,17 @@ public class AccountingLedger {
 
         } while (!done);
     }
+
+
+    // Add a new deposit
+    private static void addDeposit(Scanner myScanner,
+                                   ArrayList<Transaction> transactions) {
+
+        // Temporary message to test the method
+        System.out.println("Add Deposit Menu");
+
+    }
+
 
     // Add a new payment
     private static void addPayment(Scanner myScanner,

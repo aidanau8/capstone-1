@@ -140,11 +140,19 @@ public class AccountingLedger {
     // Display deposit transactions
     private static void displayDeposits(ArrayList<Transaction> transactions) {
 
+        // Create a copy to keep the original list unchanged
+        ArrayList<Transaction> sortedTransactions = new ArrayList<>(transactions);
+
+        // Sort transactions by date and time, newest first
+        Collections.sort(sortedTransactions,
+                Comparator.comparing(Transaction::getDate)
+                        .thenComparing(Transaction::getTime)
+                        .reversed());
+
         // Display a heading
         System.out.println("Deposits:");
 
-        // Loop through all transactions
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : sortedTransactions) {
 
             // Display only positive transactions
             if (transaction.getAmount() > 0) {

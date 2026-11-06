@@ -92,7 +92,7 @@ public class AccountingLedger {
             // Handle the ledger menu choices
             switch (userInput) {
                 case "A" -> displayAllTransactions(transactions);
-                case "D" -> System.out.println("Deposits selected");
+                case "D" -> displayDeposits(transactions);
                 case "P" -> System.out.println("Payments selected");
                 case "R" -> System.out.println("Reports selected");
                 case "H" -> done = true;
@@ -101,7 +101,6 @@ public class AccountingLedger {
 
         } while (!done);
     }
-
 
 
     // Display all transactions
@@ -121,20 +120,44 @@ public class AccountingLedger {
         // Display a heading
         System.out.println("All Transactions:");
 
-        // Loop through the transaction list
+        // Loop through the sorted transactions
         for (Transaction transaction : sortedTransactions) {
 
-            // Display transaction details
-            System.out.println(
-                    transaction.getDate() + " | " +
-                            transaction.getTime() + " | " +
-                            transaction.getDescription() + " | " +
-                            transaction.getVendor() + " | " +
-                            transaction.getAmount()
-            );
+
+                // Display transaction details
+                System.out.println(
+                        transaction.getDate() + " | " +
+                                transaction.getTime() + " | " +
+                                transaction.getDescription() + " | " +
+                                transaction.getVendor() + " | " +
+                                transaction.getAmount()
+                );
+            }
+        }
+
+
+
+    // Display deposit transactions
+    private static void displayDeposits(ArrayList<Transaction> transactions) {
+
+        // Display a heading
+        System.out.println("Deposits:");
+
+        // Loop through all transactions
+        for (Transaction transaction : transactions) {
+
+            // Display only positive transactions
+            if (transaction.getAmount() > 0) {
+                System.out.println(
+                        transaction.getDate() + " | " +
+                                transaction.getTime() + " | " +
+                                transaction.getDescription() + " | " +
+                                transaction.getVendor() + " | " +
+                                transaction.getAmount()
+                );
+            }
         }
     }
-
 
 
     // Add a new deposit

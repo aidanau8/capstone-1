@@ -425,11 +425,8 @@ public class AccountingLedger {
         // Ask the user for the deposit amount
         System.out.print("Enter deposit amount: ");
 
-        // Read the amount as a String
-        String amountText = myScanner.nextLine();
-
-        // Convert the String into a double
-        double amount = Double.parseDouble(amountText);
+        // Read a valid deposit amount
+        double amount = readAmount(myScanner);
 
         // Ensure the deposit amount is positive
         amount = Math.abs(amount);
@@ -483,10 +480,9 @@ public class AccountingLedger {
 
         // Ask the user for the payment amount
         System.out.print("Enter payment amount: ");
-        String amountText = myScanner.nextLine();
 
-        // Convert the String into a double
-        double amount = Double.parseDouble(amountText);
+        // Read a valid payment amount
+        double amount = readAmount(myScanner);
 
         // Display the amount for testing
         System.out.println("Amount: " + amount);
@@ -508,6 +504,35 @@ public class AccountingLedger {
         // Save the transaction to the CSV file
         saveTransaction(transaction);
     }
+
+
+    // Read and validate a transaction amount
+    private static double readAmount(Scanner myScanner) {
+
+        while (true) {
+
+            // Read the amount from the keyboard
+            String amountText = myScanner.nextLine().trim();
+
+            try {
+                // Convert the String into a double
+                double amount = Double.parseDouble(amountText);
+
+                // Check that the amount is valid and greater than zero
+                if (Double.isFinite(amount) && amount > 0) {
+                    return amount;
+                }
+
+                System.out.print("Please enter an amount greater than zero: ");
+
+            } catch (NumberFormatException e) {
+
+                // Handle invalid number input
+                System.out.print("Invalid amount. Please enter a number: ");
+            }
+        }
+    }
+
 
     // Save a transaction to the CSV file
     private static void saveTransaction(Transaction transaction) {

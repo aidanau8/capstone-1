@@ -155,6 +155,21 @@ public class AccountingLedger {
         System.out.println("Amount: " + amount);
 
 
+        // Create a new Transaction object
+        Transaction transaction = new Transaction(
+                date, time, description, vendor, amount
+        );
+
+        // Add the transaction to the ArrayList
+        transactions.add(transaction);
+
+        // Display a confirmation message
+        System.out.println("Deposit added: " + transaction.getAmount());
+
+        // Save the deposit transaction to the CSV file
+        saveTransaction(transaction);
+
+
     }
 
 

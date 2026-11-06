@@ -93,7 +93,7 @@ public class AccountingLedger {
             switch (userInput) {
                 case "A" -> displayAllTransactions(transactions);
                 case "D" -> displayDeposits(transactions);
-                case "P" -> System.out.println("Payments selected");
+                case "P" -> displayPayments(transactions);
                 case "R" -> System.out.println("Reports selected");
                 case "H" -> done = true;
                 default -> System.out.println("Invalid option. Please try again.");
@@ -167,6 +167,38 @@ public class AccountingLedger {
         }
     }
 
+    // Display payment transactions
+    private static void displayPayments(ArrayList<Transaction> transactions) {
+
+        // Create a copy to keep the original list unchanged
+        ArrayList<Transaction> sortedTransactions = new ArrayList<>(transactions);
+
+        // Sort transactions by date and time, newest first
+        Collections.sort(sortedTransactions,
+                Comparator.comparing(Transaction::getDate)
+                        .thenComparing(Transaction::getTime)
+                        .reversed());
+
+        // Display a heading
+        System.out.println("Payments:");
+
+        // Loop through the sorted transactions
+        for (Transaction transaction : sortedTransactions) {
+
+            // Display only negative transactions
+            if (transaction.getAmount() < 0) {
+
+                // Display payment details
+                System.out.println(
+                        transaction.getDate() + " | " +
+                                transaction.getTime() + " | " +
+                                transaction.getDescription() + " | " +
+                                transaction.getVendor() + " | " +
+                                transaction.getAmount()
+                );
+            }
+        }
+    }
 
     // Add a new deposit
     private static void addDeposit(Scanner myScanner,

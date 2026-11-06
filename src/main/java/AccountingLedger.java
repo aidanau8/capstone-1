@@ -94,8 +94,49 @@ public class AccountingLedger {
                 case "A" -> displayAllTransactions(transactions);
                 case "D" -> displayDeposits(transactions);
                 case "P" -> displayPayments(transactions);
-                case "R" -> System.out.println("Reports selected");
+                case "R" -> reportsMenu(myScanner, transactions);
                 case "H" -> done = true;
+                default -> System.out.println("Invalid option. Please try again.");
+            }
+
+        } while (!done);
+    }
+
+
+    // Display the reports menu
+    private static void reportsMenu(Scanner myScanner,
+                                    ArrayList<Transaction> transactions) {
+
+        // Store the reports menu options
+        String menuPrompt = """
+                Reports Menu
+                1) Month To Date
+                2) Previous Month
+                3) Year To Date
+                4) Previous Year
+                5) Search by Vendor
+                0) Back
+                Enter your choice:
+                """;
+
+        // Control when the user returns to the ledger menu
+        boolean done = false;
+
+        do {
+            // Display the reports menu
+            System.out.println(menuPrompt);
+
+            // Read the user's choice
+            String userInput = myScanner.nextLine().trim();
+
+            // Handle the reports menu choices
+            switch (userInput) {
+                case "1" -> System.out.println("Month To Date selected");
+                case "2" -> System.out.println("Previous Month selected");
+                case "3" -> System.out.println("Year To Date selected");
+                case "4" -> System.out.println("Previous Year selected");
+                case "5" -> System.out.println("Search by Vendor selected");
+                case "0" -> done = true;
                 default -> System.out.println("Invalid option. Please try again.");
             }
 

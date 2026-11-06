@@ -42,8 +42,8 @@ All transactions are stored in a CSV file, allowing users to access their financ
 3. **Year To Date** — Display transactions from the beginning of the current year through today.
 4. **Previous Year** — Display transactions from the previous calendar year.
 5. **Search by Vendor** — Search for transactions by vendor name without case sensitivity.
-   **0) Back** — Return to the ledger menu.
 
+**0) Back** — Return to the ledger menu.
 Transactions are sorted by date and time, newest first.
 
 ## Project Structure

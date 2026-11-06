@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AccountingLedger {
 
@@ -105,11 +107,22 @@ public class AccountingLedger {
     // Display all transactions
     private static void displayAllTransactions(ArrayList<Transaction> transactions) {
 
+        // Create a copy to keep the original list unchanged
+        ArrayList<Transaction> sortedTransactions = new ArrayList<>(transactions);
+
+
+        // Sort transactions by date and time, newest first
+        Collections.sort(sortedTransactions,
+                Comparator.comparing(Transaction::getDate)
+                        .thenComparing(Transaction::getTime)
+                        .reversed());
+
+
         // Display a heading
         System.out.println("All Transactions:");
 
         // Loop through the transaction list
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : sortedTransactions) {
 
             // Display transaction details
             System.out.println(
